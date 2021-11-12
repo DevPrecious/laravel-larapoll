@@ -32,7 +32,7 @@
                         <span class="text-white">
                             Ends {{ $poll['created_at'] }}
                         </span>
-                        <span class="text-white">{{ $poll['votes'] }} votes</span>
+                        <span class="text-white">{{ $poll['votes'] }} {{ Str::plural('vote', $poll['votes']) }}</span>
                     </div>
                 </div>
 

@@ -13,7 +13,7 @@
                     </div>
                     @endif
                     <div class="flex justify-between">
-                        <a href="{{ route('users', $poll['username']) }}" class="text-md text-white">{{ $poll['name'] }}</a>
+                        <a href="{{ route('users', $poll['name']) }}" class="text-md text-white">{{ $poll['name'] }}</a>
                         <span class="text-md text-white">{{ \Carbon\Carbon::parse($poll['created_at'])->diffForHumans() }}</span>
                     </div>
                     <span class="font-semibold text-xl text-white flex justify-center">
@@ -38,9 +38,6 @@
                         </span>
                         <span class="text-white">{{ $poll['votes'] }} {{ Str::plural('vote', $poll['votes']) }}</span>
                     </div>
-                    <div class="pt-2">
-                        <a href="{{ route('single', $poll['id']) }}" class="text-white text-md">Comment</a>
-                    </div>
                 </div>
 
             </div>
@@ -54,4 +51,44 @@
         No Polls
     </div>
     @endif
+
+    <div class="flex justify-center">
+        <div class="w-full md:w-1/2 shadow-md rounded-lg bg-white p-6">
+            <span class="text-lg">Conversations</span>
+            <div class="grid">
+                @foreach($comments as $comment)
+                <div class="grid">
+                    <div class="flex justify-between">
+                        @if(empty($comment->user->profile->image))
+                        <img src="https://picsum.photos/200/300" class="w-30 h-20 rounded-lg" alt="">
+                        @else
+                        <img src="{{ URL::to('/') }}/profiles/{{ $comment->user->profile->image }}" class="w-30 h-20 rounded-lg" alt="">
+                        @endif
+                        <span class="text-md">{{ $comment->user->name }}</span>
+                    </div>
+                    <span class="text-md">{{ $comment->comment }}</span>
+                    <div>
+                        <span class="text-sm">{{ $comment->created_at->diffForHumans() }}</span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="pt-4 grid">
+                <span class="text-md">Comment</span>
+                <form action="">
+                    <input type="text" wire:model="comment" class="rounded-lg shadow-md p-2 w-full">
+                    @error('comment') <span class="text-red-500">{{ $message }}</span> @enderror
+                    <div class="pt-2">
+                        <button wire:click.prevent="comment({{ Route::current()->parameter('id') }})" class="bg-blue-500 p-2 rounded-lg shadow-md text-white">Comment</button>
+                    </div>
+                </form>
+                @if (session()->has('sent'))
+                <div class="bg-green-400 rounded-lg p-4 text-white">
+                    {{ session('sent') }}
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
 </div>

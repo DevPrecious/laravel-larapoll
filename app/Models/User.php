@@ -19,6 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
     ];
@@ -47,8 +48,18 @@ class User extends Authenticatable
         return $this->hasMany(Poll::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function wallet()
     {
         return $this->hasOne(wallet::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
     }
 }

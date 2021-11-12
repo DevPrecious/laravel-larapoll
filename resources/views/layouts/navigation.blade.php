@@ -28,6 +28,18 @@
                         {{ __('Fund Account') }}
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
+                        {{ __('Profile') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
+                        N{{ auth()->user()->wallet->amount }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -44,6 +56,8 @@
                             </div>
                         </button>
                     </x-slot>
+
+
 
                     <x-slot name="content">
                         <!-- Authentication -->
@@ -76,6 +90,25 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('poll.create')" :active="request()->routeIs('poll.create')">
+                {{ __('Create Polls') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('fund')" :active="request()->routeIs('fund')">
+                {{ __('Fund Account') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
+                {{ __('Profile') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
+                N{{ auth()->user()->wallet->amount }}
             </x-responsive-nav-link>
         </div>
 

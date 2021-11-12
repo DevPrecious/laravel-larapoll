@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Comment;
 use Livewire\Component;
 use App\Models\Poll;
 use App\Models\Option;
@@ -10,10 +11,17 @@ use App\Models\Vote;
 use App\Models\wallet;
 use App\Rules\CheckUserBalance;
 
-class VoteWire extends Component
+class PollSingle extends Component
 {
     public $polls;
     public $poll_id, $option_id, $user_id, $staked;
+    public $r_id;
+    public $comment, $comments;
+
+    public function mount()
+    {
+        $this->r_id;
+    }
 
     public function render()
     {
@@ -22,8 +30,9 @@ class VoteWire extends Component
         $pollOptionModel = new Option();
         $voteModel = new Vote();
         $userModel = new User();
-        $getpoll = $pollModel->orderBy('polls.created_at', 'DESC')->join('users', 'users.id', '=', 'polls.user_id')->get();
+        $getpoll = $pollModel->where('polls.id', $this->r_id)->orderBy('polls.created_at', 'DESC')->join('users', 'users.id', '=', 'polls.user_id')->get();
         // dd($getpoll->toArray());
+        $this->comments = Comment::latest()->where('poll_id', $this->r_id)->get();
 
         $this->polls = array_map(function ($poll)
         use ($pollOptionModel, $voteModel) {
@@ -33,11 +42,12 @@ class VoteWire extends Component
             // $poll['user'] = $voteModel->where('votes.poll_id', $poll['id'])->->get();
             return $poll;
         }, $getpoll->toArray());
-        // dd($polls);
+        // dd($this->polls);
         $data = [
-            'polls' => $this->polls
+            'poll' => $this->polls,
+            'comments' => $this->comments
         ];
-        return view('livewire.vote-wire', $data);
+        return view('livewire.poll-single', $data);
     }
     private function resetInputFields()
     {
@@ -68,5 +78,19 @@ class VoteWire extends Component
             $this->resetInputFields();
             session()->flash('message', 'Vote Successfull.');
         }
+    }
+
+    public function comment()
+    {
+        $this->validate([
+            'comment' => 'required'
+        ]);
+
+        Comment::create([
+            'comment' => $this->comment,
+            'user_id' => auth()->id(),
+            'poll_id' => $this->r_id
+        ]);
+        session()->flash('sent', 'Commented.');
     }
 }

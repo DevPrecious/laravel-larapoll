@@ -51,7 +51,7 @@ class PollLivewire extends Component
                 'title' => 'required',
                 'amount' => [
                     'required',
-                    new CheckUserBalance()
+                    // new CheckUserBalance()
                 ],
             ],
             [

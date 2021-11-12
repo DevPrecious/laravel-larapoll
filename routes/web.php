@@ -20,6 +20,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/callback', [FundController::class, 'callback'])->name('callback');
+
 Route::get('/fund', [FundController::class, 'index'])->name('fund');
 Route::post('/fund', [FundController::class, 'store'])->name('fund');
 

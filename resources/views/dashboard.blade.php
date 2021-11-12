@@ -28,13 +28,14 @@
                         </div>
                         @endforeach
                     </div>
+                    <div class="pt-4 flex flex-row justify-between">
+                        <span class="text-white">
+                            Ends {{ $poll['created_at'] }}
+                        </span>
+                        <span class="text-white">30k votes</span>
+                    </div>
                 </div>
-                <div class="pt-4 flex flex-row justify-between">
-                    <span class="text-white">
-                        Ends Tomorrow
-                    </span>
-                    <span class="text-white">30k votes</span>
-                </div>
+
             </div>
         </div>
         <!-- </div> -->

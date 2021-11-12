@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Option;
 use App\Models\Poll;
+use App\Rules\CheckUserBalance;
 use Livewire\Component;
 
 class PollLivewire extends Component
@@ -48,7 +49,10 @@ class PollLivewire extends Component
                 'option.0' => 'required',
                 'option.*' => 'required',
                 'title' => 'required',
-                'amount' => 'required',
+                'amount' => [
+                    'required',
+                    new CheckUserBalance()
+                ],
             ],
             [
                 'option.0.required' => 'Option field is required',

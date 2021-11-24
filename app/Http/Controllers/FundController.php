@@ -29,7 +29,7 @@ class FundController extends Controller
         $user = User::find(auth()->id());
 
         $email = $user['email'];
-        $amount = $request->amount * 100;  //the amount in kobo. This value is actually NGN 300
+        $amount = $request->amount + 00;  //the amount in kobo. This value is actually NGN 300
 
         // Store sessions
         $ses_store = [

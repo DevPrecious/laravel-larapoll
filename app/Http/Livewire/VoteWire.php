@@ -7,37 +7,47 @@ use App\Models\Poll;
 use App\Models\Option;
 use App\Models\User;
 use App\Models\Vote;
-use App\Models\wallet;
+use App\Models\Wallet;
 use App\Rules\CheckUserBalance;
+
+use function GuzzleHttp\Promise\all;
 
 class VoteWire extends Component
 {
     public $polls;
     public $poll_id, $option_id, $user_id, $staked;
 
+
     public function render()
     {
-        // $polls = Poll::all();
-        $pollModel = new Poll();
-        $pollOptionModel = new Option();
-        $voteModel = new Vote();
-        $userModel = new User();
-        $getpoll = $pollModel->orderBy('polls.created_at', 'DESC')->join('users', 'users.id', '=', 'polls.user_id')->get();
-        // dd($getpoll->toArray());
+        $this->polls = Poll::withCount('options')->get();
+        // foreach ($this->polls as $pl) {
+        //     foreach ($pl->options as $xl) {
+        //         dd($xl);
+        //     }
+        // }
+        // // $polls = Poll::all();
+        // $pollModel = new Poll();
+        // $pollOptionModel = new Option();
+        // $voteModel = new Vote();
+        // $userModel = new User();
+        // $getpoll = $pollModel->orderBy('polls.created_at', 'DESC')->join('users', 'users.id', '=', 'polls.user_id')->get();
 
-        $this->polls = array_map(function ($poll)
-        use ($pollOptionModel, $voteModel) {
-            $poll['options'] = $pollOptionModel->where('poll_id', $poll['id'])->get();
-            // dd($poll['options']);
-            $poll['votes'] = $voteModel->where('votes.poll_id', $poll['id'])->join('polls', 'polls.id', '=', 'votes.poll_id')->count();
-            // $poll['user'] = $voteModel->where('votes.poll_id', $poll['id'])->->get();
-            return $poll;
-        }, $getpoll->toArray());
-        // dd($polls);
-        $data = [
-            'polls' => $this->polls
-        ];
-        return view('livewire.vote-wire', $data);
+        // $this->polls = array_map(function ($poll)
+        // use ($pollOptionModel, $voteModel) {
+        //     // $poll['options'] = $pollOptionModel->where('poll_id', $poll['id'])->get();
+        //     $poll['options'] = Option::where('poll_id', $poll['id'])->get();
+        //     dd($poll['options']);
+        //     $poll['votes'] = $voteModel->where('votes.poll_id', $poll['id'])->join('polls', 'polls.id', '=', 'votes.poll_id')->count();
+        //     // $poll['user'] = $voteModel->where('votes.poll_id', $poll['id'])->->get();
+        //     return $poll;
+        // }, $getpoll->toArray());
+        // // dd($polls);
+        // $data = [
+        //     'polls' => $this->polls
+        // ];
+        // return view('livewire.vote-wire', $data);
+        return view('livewire.vote-wire');
     }
     private function resetInputFields()
     {
@@ -49,7 +59,7 @@ class VoteWire extends Component
         $this->validate([
             'staked' => [
                 'required',
-                // new CheckUserBalance()
+                new CheckUserBalance()
             ]
         ]);
         $vote = Vote::create([
@@ -60,8 +70,8 @@ class VoteWire extends Component
         ]);
 
         if ($vote) {
-            $wallet = new wallet();
-            $user_wallet = wallet::where('user_id', auth()->id())->first();
+            $wallet = new Wallet();
+            $user_wallet = Wallet::where('user_id', auth()->id())->first();
             $newbalance = $user_wallet['amount'] - $this->staked;
             $wallet_data['amount'] = $newbalance;
             $wallet->where('id', $user_wallet['id'])->update($wallet_data);

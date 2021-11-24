@@ -27,7 +27,13 @@ class CheckUserBalance implements Rule
     public function passes($attribute, $value)
     {
         $user_wallet = wallet::where('user_id', auth()->id())->first();
-        if ($user_wallet <= $value) {
+        // dd($user_wallet->amount);
+        $int = (int)$value;
+        $price = (int)$user_wallet->amount;
+        // dd($int);
+        if ($price < $int) {
+            return false;
+        } else {
             return true;
         }
     }

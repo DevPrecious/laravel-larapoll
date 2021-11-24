@@ -15,7 +15,7 @@
                 @endif
             </div>
             <div class="pt-2">
-                <button class="rounded-md bg-blue-500 p-3 text-white">Follow</button>
+                @livewire('follow-user', ['user_id' => $user->id])
             </div>
             <div class="pt-2 grid grid-cols-1 divide-y divide-yellow-500">
                 <span class="text-md md:text-2xl">Personal Information</span>

@@ -13,7 +13,7 @@
                     </div>
                     @endif
                     <div class="flex justify-between">
-                        <a href="{{ route('users', $poll['username']) }}" class="text-md text-white">{{ $poll['name'] }}</a>
+                        <a href="{{ route('users', $poll->user->username) }}" class="text-md text-white">{{ $poll->user->name }}</a>
                         <span class="text-md text-white">{{ \Carbon\Carbon::parse($poll['created_at'])->diffForHumans() }}</span>
                     </div>
                     <span class="font-semibold text-xl text-white flex justify-center">
@@ -36,7 +36,7 @@
                         <span class="text-white">
                             Ends {{ \Carbon\Carbon::parse($poll['end_at'])->diffForHumans() }}
                         </span>
-                        <span class="text-white">{{ $poll['votes'] }} {{ Str::plural('vote', $poll['votes']) }}</span>
+                        <span class="text-white">{{ $poll['votes']->count() }} {{ Str::plural('vote', $poll['votes']->count()) }}</span>
                     </div>
                     <div class="pt-2">
                         <a href="{{ route('single', $poll['id']) }}" class="text-white text-md">Comment</a>

@@ -35,11 +35,19 @@
                     </x-nav-link>
                 </div>
 
+                @if(!empty(auth()->user()->wallet->amount))
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
-                        N{{ auth()->user()->wallet->amount }}
+                        N{{ auth()->user()->wallet->amount  }}
                     </x-nav-link>
                 </div>
+                @else
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
+                        N0
+                    </x-nav-link>
+                </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -107,9 +115,15 @@
                 {{ __('Profile') }}
             </x-responsive-nav-link>
 
+            @if(!empty(auth()->user()->wallet->amount))
             <x-responsive-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
                 N{{ auth()->user()->wallet->amount }}
             </x-responsive-nav-link>
+            @else
+            <x-responsive-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
+                N0
+            </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

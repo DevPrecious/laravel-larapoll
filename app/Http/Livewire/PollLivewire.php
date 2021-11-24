@@ -6,6 +6,7 @@ use App\Models\Option;
 use App\Models\Poll;
 use App\Rules\CheckUserBalance;
 use Livewire\Component;
+use App\Models\Wallet;
 
 class PollLivewire extends Component
 {
@@ -51,7 +52,7 @@ class PollLivewire extends Component
                 'title' => 'required',
                 'amount' => [
                     'required',
-                    // new CheckUserBalance()
+                    new CheckUserBalance()
                 ],
             ],
             [
@@ -75,6 +76,12 @@ class PollLivewire extends Component
         //     'stake' => $this->amount,
         //     'user_id' => auth()->id()
         // ]);
+
+        $wallet = new Wallet();
+        $user_wallet = Wallet::where('user_id', auth()->id())->first();
+        $newbalance = $user_wallet['amount'] - $this->amount;
+        $wallet_data['amount'] = $newbalance;
+        $wallet->where('id', $user_wallet['id'])->update($wallet_data);
 
         $pollID = $poll->id;
 

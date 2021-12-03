@@ -8,6 +8,7 @@ use App\Models\Option;
 use App\Models\User;
 use App\Models\Vote;
 use App\Models\Wallet;
+use App\Rules\CheckStake;
 use App\Rules\CheckUserBalance;
 
 use function GuzzleHttp\Promise\all;
@@ -59,7 +60,8 @@ class VoteWire extends Component
         $this->validate([
             'staked' => [
                 'required',
-                new CheckUserBalance()
+                new CheckUserBalance(),
+                new CheckStake($poll_id)
             ]
         ]);
         $vote = Vote::create([

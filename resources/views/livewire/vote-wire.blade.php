@@ -12,6 +12,7 @@
                         {{ session('message') }}
                     </div>
                     @endif
+                    <span class="text-white text-xl">Staked {{$poll->stake}}</span>
                     <div class="flex justify-between">
                         <a href="{{ route('users', $poll->user->username) }}" class="text-md text-white">{{ $poll->user->name }}</a>
                         <span class="text-md text-white">{{ \Carbon\Carbon::parse($poll['created_at'])->diffForHumans() }}</span>

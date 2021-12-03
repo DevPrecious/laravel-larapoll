@@ -33,7 +33,7 @@ Route::get('/poll/{id}', [PollController::class, 'single'])->name('single');
 
 Route::get('/users/{user:username}/profile', [UserController::class, 'index'])->name('users');
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/feed', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 

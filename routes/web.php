@@ -39,5 +39,9 @@ Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
 Route::post('/update', [ProfileController::class, 'store'])->name('update');
 
+Route::get('/withdraw', [WithdrawController::class, 'index'])->name('withdraw');
+Route::get('/addbank', [WithdrawController::class, 'add_bank'])->name('addbank.add');
+Route::post('/verifybank', [WithdrawController::class, 'verify_bank'])->name('addbank');
+Route::post('/process', [WithdrawController::class, 'process'])->name('withdraw');
 
 require __DIR__ . '/auth.php';

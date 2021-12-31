@@ -15,4 +15,9 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function poll()
+    {
+        return $this->belongsTo(Poll::class);
+    }
 }
